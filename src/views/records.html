@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Records page</title>
+</head>
+<body>
+    <div class="container">
+
+        <div class="row justify-content-center" style="margin-top: 20px;">
+            <div class="col col-auto">
+                <h1>Records</h1>
+            </div>
+        </div>
+
+        <div class="row justify-content-center" style="margin-top: 20px;">
+
+            <div class="col-sm-2 col-md-2 col-lg-2 col-auto">
+                <div class="border border-dark">
+                    <div style="margin: 5px">
+                        <b>Diseases rating by total number of patients worldwide</b>
+                    </div>
+
+                <table class="table">
+<!--                    <thead class="table-secondary" id="disease-rating-thead">-->
+<!--                    </thead>-->
+                    <tbody id="disease-rating-tbody">
+                    </tbody>
+                </table>
+                </div>
+            </div>
+
+            <div class="col-sm-8 col-md-8 col-lg-8">
+                <table class="table table-bordered table-hover border-dark">
+                    <thead class="table-primary border-dark" id="records-thead">
+                    </thead>
+                    <tbody id="records-tbody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addRecord">
+                    Add record
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+<!-- Add Record Modal -->
+<div class="modal fade" id="addRecord" tabindex="-1" aria-labelledby="addRecordLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRecordLabel">Add record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!--                                    email, cname, disease_code, total_deaths, total_patients-->
+                <div class="input-group mb-3">
+                    <!--                                    <input type="email" class="form-control" placeholder="Email" aria-label="Email" id="add-email">-->
+                    <select class="form-select" aria-label="Default select example" id="add-email">
+                        <option selected>Choose email</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <!--                                    <input type="text" class="form-control" placeholder="Country" aria-label="Country" id="add-country">-->
+                    <select class="form-select" aria-label="Default select example" id="add-country">
+                        <option selected>Choose country</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <!--                                    <input type="text" class="form-control" placeholder="Disease code" aria-label="Disease code" id="add-disease-code">-->
+                    <select class="form-select" aria-label="Default select example" id="add-disease-code">
+                        <option selected>Choose disease code</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="number" min="0" max="1500000000" class="form-control" placeholder="Total deaths" aria-label="Total deaths" id="add-total-deaths">
+                </div>
+                <div class="input-group mb-3">
+                    <input type="number" min="0" max="1500000000" class="form-control" placeholder="Total patients" aria-label="Total patients" id="add-total-patients">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addRecord();">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Record Modal -->
+<div class="modal fade" id="editRecord" tabindex="-1" aria-labelledby="editRecordLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRecordLabel">Edit record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <select class="form-select" aria-label="Default select example" id="edit-email" disabled>
+<!--                        <option selected>Choose email</option>-->
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <select class="form-select" aria-label="Default select example" id="edit-country" disabled>
+<!--                        <option selected>Choose country</option>-->
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <select class="form-select" aria-label="Default select example" id="edit-disease-code" disabled>
+<!--                        <option selected id="edit-">Choose disease code</option>-->
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="number" min="0" max="1500000000" class="form-control" placeholder="Total deaths" aria-label="Total deaths" id="edit-total-deaths">
+                </div>
+                <div class="input-group mb-3">
+                    <input type="number" min="0" max="1500000000" class="form-control" placeholder="Total patients" aria-label="Total patients" id="edit-total-patients">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="margin-right: 29%" class="btn btn-dark" onclick="deleteRecord();">Delete record</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveEditedRecord();">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<script>
+    async function printRecords () {
+        const response =  await fetch (`/api/record`);
+        const data = await response.json();
+
+        const thead = document.getElementById("records-thead");
+        const tbody = document.getElementById("records-tbody");
+
+        // email, cname, disease_code, total_deaths, total_patients
+        if (data.length > 0) {
+            thead.innerHTML = `<tr><th scope="col">Email</th><th scope="col">Country</th><th scope="col">Disease code</th><th scope="col">Total deaths</th><th scope="col">Total patients</th><th scope="col" style="width: 5%"> </th></tr>`
+            for (let item of data) {
+                const node = document.createElement("tr");
+                node.innerHTML = `<td>${item.email}</td><td>${item.cname}</td><td>${item.disease_code}</td><td>${item.total_deaths}</td><td>${item.total_patients}</td><td><button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editRecord" onclick="changeEditRecordModal('${item.email}', '${item.cname}', '${item.disease_code}', '${item.total_deaths}', '${item.total_patients}');">Edit</button></td>`;
+                tbody.appendChild(node);
+            }
+        }
+    }
+
+    async function printDiseaseRating () {
+        const response =  await fetch (`/api/diseaseRating`);
+        const data = await response.json();
+
+        // console.log(data);
+
+        const thead = document.getElementById("disease-rating-thead");
+        const tbody = document.getElementById("disease-rating-tbody");
+
+        // disease_code, sum
+        if (data.length > 0) {
+            // thead.innerHTML = `<tr><th scope="col">Disease code</th><th scope="col">Sum of total patients</th></tr>`
+            for (let item of data) {
+                // console.log(item);
+                const node = document.createElement("tr");
+                node.innerHTML = `<td><a href="/disease/${item.disease_code}">${item.disease_code}</a></td><td>${item.sum}</td>`;
+                tbody.appendChild(node);
+            }
+        }
+    }
+
+    async function addRecordModal () {
+        const response1 =  await fetch (`/api/countrylist`);
+        const countrylistData = await response1.json();
+
+        const response2 =  await fetch (`/api/diseasecodelist`);
+        const diseasecodelistData = await response2.json();
+
+        const response3 =  await fetch (`/api/publicservantemaillist`);
+        const emaillistData = await response3.json();
+
+        const addEmail = document.getElementById("add-email");
+        const addCountry = document.getElementById("add-country");
+        const addDiseaseCode = document.getElementById("add-disease-code");
+
+        // email, cname, disease_code, total_deaths, total_patients
+        if (countrylistData.length > 0 && diseasecodelistData.length > 0 && emaillistData.length > 0) {
+            for (let item of emaillistData) {
+                addEmail.innerHTML += `<option value="${item.email}">${item.email}</option>`;
+            }
+            for (let item of diseasecodelistData) {
+                addDiseaseCode.innerHTML += `<option value="${item.disease_code}">${item.disease_code}</option>`;
+            }
+            for (let item of countrylistData) {
+                addCountry.innerHTML += `<option value="${item.cname}">${item.cname}</option>`;
+            }
+        }
+    }
+
+    function changeEditRecordModal (email, cname, disease_code, total_deaths, total_patients) {
+        const editEmail = document.getElementById("edit-email");
+        const editCountry = document.getElementById("edit-country");
+        const editDiseaseCode = document.getElementById("edit-disease-code");
+        const editTotalDeaths = document.getElementById("edit-total-deaths");
+        const editTotalPatients = document.getElementById("edit-total-patients");
+
+        if (email.length > 0 && cname.length > 0 && disease_code.length > 0 && total_deaths >= 0 && total_patients >= 0) {
+            editEmail.innerHTML = `<option selected>${email}</option>-->`;
+            editCountry.innerHTML = `<option selected>${cname}</option>-->`;
+            editDiseaseCode.innerHTML = `<option selected>${disease_code}</option>-->`;
+            editTotalDeaths.value = total_deaths;
+            editTotalPatients.value = total_patients;
+        }
+    }
+
+    function deleteRecord() {
+        let check = window.confirm("Delete this record?");
+        if (check != true) {
+            return;
+        }
+
+        const editEmail = document.getElementById("edit-email").value;
+        const editCountry = document.getElementById("edit-country").value;
+        const editDiseaseCode = document.getElementById("edit-disease-code").value;
+
+        const payload = {
+            email: editEmail,
+            cname: editCountry,
+            disease_code: editDiseaseCode,
+        };
+
+        // console.log(payload);
+
+        fetch('/api/record', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+            .then((response) => response.json())
+            //Then with the data from the response in JSON...
+            .then((data) => {
+                console.log('Success:', data);
+                window.location.reload();
+            })
+            //Then with the error genereted...
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    function saveEditedRecord() {
+        const editEmail = document.getElementById("edit-email").value;
+        const editCountry = document.getElementById("edit-country").value;
+        const editDiseaseCode = document.getElementById("edit-disease-code").value;
+        const editTotalDeaths = document.getElementById("edit-total-deaths").value;
+        const editTotalPatients = document.getElementById("edit-total-patients").value;
+
+        if (editTotalDeaths === "" || editTotalDeaths < 0 || editTotalDeaths > 1439323776) {
+            window.alert("Invalid total deaths number!");
+            return;
+        }
+
+        if (editTotalPatients === "" || editTotalPatients < 0 || editTotalPatients > 1439323776) {
+            window.alert("Invalid total patients number!");
+            return;
+        }
+
+        const payload = {
+            email: editEmail,
+            cname: editCountry,
+            disease_code: editDiseaseCode,
+            total_deaths: editTotalDeaths,
+            total_patients: editTotalPatients
+        };
+
+        // console.log(payload);
+
+        fetch('/api/record', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+            .then((response) => response.json())
+            //Then with the data from the response in JSON...
+            .then((data) => {
+                console.log('Success:', data);
+                window.location.reload();
+            })
+            //Then with the error genereted...
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
+    async function checkRecord (email, cname, disease_code) {
+        const response =  await fetch (`/api/record`);
+        const data = await response.json();
+
+        // email, cname, disease_code
+        if (data.length > 0) {
+            for (let item of data) {
+                if (item.email === email && item.cname === cname && item.disease_code === disease_code) return false;
+            }
+        }
+        return true;
+    }
+
+    function addRecordPost(addEmail, addCountry, addDiseaseCode, addTotalDeaths, addTotalPatients) {
+        const payload = {
+            email: addEmail,
+            cname: addCountry,
+            disease_code: addDiseaseCode,
+            total_deaths: addTotalDeaths,
+            total_patients: addTotalPatients
+        };
+
+        fetch('/api/record', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+            .then((response) => response.json())
+            //Then with the data from the response in JSON...
+            .then((data) => {
+                console.log('Success:', data);
+                window.location.reload();
+            })
+            //Then with the error genereted...
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    function addRecord() {
+        const addEmail = document.getElementById("add-email").value;
+        const addCountry = document.getElementById("add-country").value;
+        const addDiseaseCode = document.getElementById("add-disease-code").value;
+        const addTotalDeaths = document.getElementById("add-total-deaths").value;
+        const addTotalPatients = document.getElementById("add-total-patients").value;
+
+        // window.alert(addEmail);
+        if (addEmail === "Choose email") {
+            window.alert("Invalid email!");
+            return;
+        }
+
+        if (addCountry === "Choose country") {
+            window.alert("Invalid country!");
+            return;
+        }
+
+        if (addDiseaseCode === "Choose disease code") {
+            window.alert("Invalid disease code!");
+            return;
+        }
+
+        if (addTotalDeaths === "" || addTotalDeaths < 0 || addTotalDeaths > 1439323776) {
+            window.alert("Invalid total deaths number!");
+            return;
+        }
+
+        if (addTotalPatients === "" || addTotalPatients < 0 || addTotalPatients > 1439323776) {
+            window.alert("Invalid total patients number!");
+            return;
+        }
+
+        checkRecord(addEmail, addCountry, addDiseaseCode).then((result) => {
+            if (result) {
+                addRecordPost(addEmail, addCountry, addDiseaseCode, addTotalDeaths, addTotalPatients);
+            } else {
+                window.alert("Record with such email, country and disease code already exist!");
+            }
+        }).catch(err=>console.log(err))
+
+    }
+
+    printRecords();
+    printDiseaseRating();
+    addRecordModal();
+
+</script>
+</html>

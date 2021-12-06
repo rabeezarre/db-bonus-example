@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index page</title>
+</head>
+<body>
+    <div>
+        <form id="get-users">
+            <label>Name:<input type="text" name="name" /></label>
+            <label>Surname:<input type="text" name="surname" /></label>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div id="result">
+        No data
+    </div>
+    <a href="/records">Records</a>
+</body>
+<script>
+    const constructQueryString = (obj) => {
+      const keyValuePair = Object.entries(obj).map(([key, value]) => `${key}=${value}`)
+      if(keyValuePair.length === 0) {
+        return "";
+      }
+      return "?" + keyValuePair.join("&");
+    }
+
+    const form = document.getElementById("get-users");
+    form.onsubmit = async (ev) => {
+      ev.preventDefault(); //this is necessary for browser not to refresh after button click
+      const name = ev.target.name.value;
+      const surname = ev.target.surname.value;
+      const queryString = constructQueryString({name, surname}) // {name, surname} is equivalent to {name: name, surname: surname}
+      const response = await fetch(`/api/user` + queryString);
+      const data = await response.json();
+      const result = document.getElementById("result");
+      result.innerHTML = `<div>
+                              <div><b>name</b>: ${data.name}</div>
+                              <div><b>surname</b>: ${data.surname}</div>
+                          </div>`;
+    }
+</script>
+</html>
